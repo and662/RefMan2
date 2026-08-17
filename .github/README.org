@@ -13,12 +13,12 @@ I had originally called it RefMan but unknown to me at the time, there is alread
 * Default Behavior and Philosophy
 Refman is designed to be used with BibTeX which distinguishes between papers (@article), books (@book), and websites (@online). So by default your references are stored in the following directory structure:
 
-References <br> 
-├── Papers <br>
-├── Books <br>
-├── Websites <br>
-├── citekeys.db <br>
-└── .refman2 <br>
+References .<br> 
+├── Papers .<br>
+├── Books .<br>
+├── Websites .<br>
+├── citekeys.db .<br>
+└── .refman2 .<br>
 
 Where the first 2 folders store PDFs and these directories are created automatically if they do not exist the first time you run refman2. =References/citekeys.db= stores all the citation metadata in an SQLite database, and =References/.refman= stores the refman code. Although all of this can be customized (and documentation for that is coming soon). 
 

@@ -2,10 +2,7 @@
 :ID:       574db4b7-cab4-4cc5-9993-b27b87c1727e
 :END:
 
-#+CAPTION: Caption... 
-#+NAME: fig:logo
-#+ATTR_HTML: :width 400px
-[[file:./refman_logo.png]] 
+<img src="./refman_logo.png" width="400">
 
 RefMan2 is a reference manager for tracking articles, books, academic papers, and websites. It's mostly written in python and is designed to be as customizable as possible. RefMan2 automatically creates citekeys and stores the metadata of your works in an SQLite database which is then used for formating a bibtex bibliography. Refman2 accepts dois, isbns and urls and it attempts to download a PDF for you as well. 
 
@@ -14,11 +11,11 @@ I had originally called it RefMan but unknown to me at the time, there is alread
 * Default Behavior and Philosophy
 Refman is designed to be used with BibTeX which distinguishes between papers (@article), books (@book), and websites (@online). So by default your references are stored in the following directory structure:
 
-References \
-├── Papers \
-├── Books \
-├── Websites \
-├── citekeys.db \
+References \\ 
+├── Papers \\ 
+├── Books \\ 
+├── Websites \\ 
+├── citekeys.db \\ 
 └── .refman2 
 
 Where the first 2 folders store PDFs and these directories are created automatically if they do not exist the first time you run refman2. =References/citekeys.db= stores all the citation metadata in an SQLite database, and =References/.refman= stores the refman code. Although all of this can be customized (and documentation for that is coming soon). 
@@ -157,7 +154,7 @@ If you're on GNU/Linux, if you're on Windows replace the second line with:
 #+end_src
 
 * Customization 
-By default, RefMan2 will keep store all it's information about your references in the SQLite database [[../citekeys.db]]. So if for some reason you want to change the name of the database or manage multiple databases you would do that as follows:
+By default, RefMan2 will keep store all it's information about your references in the SQLite database "../citekeys.db". So if for some reason you want to change the name of the database or manage multiple databases you would do that as follows:
 #+begin_src python
   import refman2 as RM2 
   refman = RM2.RefMan2( database = '../other_citekeys.db', config_file = None, verbose_mode = True )

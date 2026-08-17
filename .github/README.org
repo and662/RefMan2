@@ -2,7 +2,7 @@
 :ID:       574db4b7-cab4-4cc5-9993-b27b87c1727e
 :END:
 
-<img src="./refman_logo.png" width="400">
+#+HTML: <img src="./refman_logo.png" width="400">
 
 RefMan2 is a reference manager for tracking articles, books, academic papers, and websites. It's mostly written in python and is designed to be as customizable as possible. RefMan2 automatically creates citekeys and stores the metadata of your works in an SQLite database which is then used for formating a bibtex bibliography. Refman2 accepts dois, isbns and urls and it attempts to download a PDF for you as well. 
 

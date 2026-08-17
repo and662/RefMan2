@@ -1,0 +1,186 @@
+
+
+RefMan2 is a reference manager for tracking articles, books, academic papers, and websites. It's mostly written in python and is designed to be as customizable as possible. RefMan2 automatically creates citekeys and stores the metadata of your works in an SQLite database which is then used for formating a bibtex bibliography. Refman2 accepts dois, isbns and urls and it attempts to download a PDF for you as well. 
+
+I had originally called it RefMan but unknown to me at the time, there is already a python-based reference manager called [RefMan](https://github.com/adriancaruana/refman) by Adrien Caruana. However I believe that RefMan2 is different enough to warrant posting the code.
+
+NOTE: This is a work in progress, this project is very unfinished. 
+
+# Default Behavior and Philosophy
+
+Refman is designed to be used with BibTeX which distinguishes between papers (@article), books (@book), and websites (@online). So by default your references are stored in the following directory structure:
+
+References \
+├── Papers \
+├── Books \
+├── Websites \
+├── citekeys.db \
+└── .refman2 
+
+Where the first 2 folders store PDFs and these directories are created automatically if they do not exist the first time you run refman2. `References/citekeys.db`stores all the citation metadata in an SQLite database, and `References/.refman` stores the refman code. Although all of this can be customized (and documentation for that is coming soon). 
+
+I wrote it like this for 2 reasons: 1. refman is a work in progress so this way you can easily clone a newer version of .refman without it messing with your saved references. And 2. you can rename or make multiple "References" folders and databases, or move the folder and refman2 will work fine (since the code is in a subdirectory). 
+
+# Quick Start
+
+Create a folder to store your references, for example if you created a "References" folder then:
+```
+  cd References 
+  git clone https://github.com/and662/RefMan.git .
+  cd .refman2
+  docker build -t refman . 
+```
+
+Where the last step will build the refman docker image. For reproducible results, I highly recommended running refman2 in a docker container. The script "refman.sh" is a wrapper for running the container (which by default expects the name of the image to be refman). 
+
+## Adding a Paper with a DOI
+
+Every paper is assigned one (or more) Digital Online Identifier (DOI) which uniquely identifies that paper. For example the fameous paper on superconductivity by Bardeen, Cooper, and Schrieffer has the DOI: [10.1103/PhysRev.106.162](https://doi.org/10.1103/PhysRev.106.162) and we can add it to RefMan2 as follows:
+```
+  import refman2 as RM2 
+  refman = RM2.RefMan2()
+  refman.add_doi( '10.1103/PhysRev.106.162' ) 
+```
+This would automatically create the citekey "Bardeen1957". 
+
+Or from the command line, papers can be added as follows:
+```
+  ./refman2.sh refman2.py add-doi math/0211159 
+```
+
+Note: RefMan2 uses the [crossref.org](https://www.crossref.org/), [datacite.org](https://datacite.org/), and [info.arxiv.org/help/api](https://info.arxiv.org/help/api/index.html) APIs to obtain metadata for DOIs. And the metadata is used to try to download a PDF version of the paper to your Papers folder ("../Papers" by default).
+
+## Adding a Book with an ISBN 
+
+Every book is asigned one (or more) International Standard Book Number (ISBN) which uniquely identifies that book. For example Allen Hatcher's book on algebraic topology has the ISBN [0521795400](https://www.amazon.ca/Algebraic-Topology-Allen-Hatcher/dp/0521795400) and it can be added to RefMan2 as follows:
+```
+  import refman2 as RM2 
+  refman = RM2.RefMan2()
+  refman.add_isbn( '0521795400' )
+```
+
+Or from the command line, books can be added as follows:
+```
+  ./refman2.sh refman2.py add-isbn 0201503972
+```
+
+Note: RefMan2 uses the [openlibrary.org](https://openlibrary.org/) API to obtain metadata for ISBNs. 
+
+## Adding a Website with a URL 
+
+Every webpage has a unique Uniform Resource Locator (URL). A url can be added to RefMan2 as follows:
+```
+  import refman2 as RM2 
+  refman = RM2.RefMan2()
+  refman.add_url( 'https://www.bibtex.org/' )
+```
+
+Or from the command line:
+```
+  ./refman.sh add-url "https://www.bibtex.org/"
+```
+
+## Printing a Bibtex Citation
+
+To use RefMan2 to print a bibtex citation from a citekey use the following. Eg. to print a bibtex citation for the first example use: 
+```
+  import refman2 as RM2 
+  refman = RM2.RefMan2()
+  refman.bibtex( citekeysDB, 'Bardeen1957' )
+```
+
+or from the command line:
+``` 
+  ./refman2.sh refman2.py bibtex "Bardeen1957"
+```
+
+## Renaming a Citekey 
+
+To rename a citekey, eg. from "Bardeen1957" to "BCS-paper1957" use the following: 
+```
+  import refman2 as RM2 
+  refman = RM2.RefMan2()
+  refman.rename( 'Bardeen1957', 'BCS-paper1957' )
+```
+
+From the command line:
+```
+  ./refman2.sh refman2.py rename Bardeen1957 BCS-paper1957
+```
+
+## Removing a Citekey
+
+Removing a citekey works the same way:
+```
+  import refman2 as RM2 
+  refman = RM2.RefMan2()
+  refman.remove( 'BCS-paper1957' )
+```
+
+From the command line:
+```
+  ./refman2.sh refman2.py remove BCS-paper1957
+```
+
+## Refman From the Command Line
+
+TD: explain how refman should be aliased. 
+
+## Emacs Integration 
+
+The file `refman2.el` is designed to go into your emacs folder to provide emacs integration, just load the file in init.el as follows: 
+```
+  (load-file "~/.config/emacs/refman2.el")
+```
+
+then update the following lines in refman2.el:
+```
+  (setq refman-papers-dir   "~/References/Papers")
+  (setq refman-books-dir    "~/References/Books")
+  (setq refman-websites-dir "~/References/Websites")
+  (setq refman-db-dir       "~/References/citekeys.db")
+```
+so that it points to the correct folders. 
+
+Now the following emacs commands will be available:
+```
+  M-x refman-command 
+  M-x refman-create-link
+  M-x refman-open-citekeys
+  M-x refman-citekeys-menu 
+```
+
+Note: I wrote this so that emacs looks for the bash alias called "refman". 
+
+# Without Docker 
+
+Unfortunately not everyone likes to use Docker, and admitedly the docker image is pretty large (roughly 1 GB). So note that RefMan2 requires wget, python3 and sqlite3 to be installed on your system. You will alse need a virtual environment to run the python code, create one as follows:
+```
+  python3 -m venv .venv 
+  source .venv/bin/activate
+  pip install -r .refman/requirements.txt 
+```
+
+if you're on GNU/Linux, if you're on Windows replace the second line with:
+```
+  source .venv/Scripts/activate
+```
+
+# Customization 
+
+```
+  import refman2 as RM2 
+  refman = RM2.RefMan2( database = '../other_citekeys.db', config_file = None, verbose_mode = True )
+  refman.add_doi( '10.1103/PhysRev.106.162' )
+```
+
+```
+  ./refman2.sh refman2.py add-doi 10.1103/PhysRev.106.162 \
+    --database "../citekeys_test.db" 
+```
+
+```
+  ./refman2.sh refman2.py add-doi --help 
+```
+
+

@@ -1,0 +1,13 @@
+__pycache__/
+
+Papers/*
+!Papers/.gitkeep
+
+Books/*
+!Books/.gitkeep
+
+Websites/*
+!Websites/.gitkeep
+
+.responses/*
+!.responses/.gitkeep

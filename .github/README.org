@@ -2,19 +2,18 @@
 :ID:       574db4b7-cab4-4cc5-9993-b27b87c1727e
 :END:
 
-* +RefMan+ RefMan2
+* RefMan2
 
 #+HTML: <p align="center">
 #+HTML: <img src="./refman_logo.png" width="400">
 #+HTML: </p>
 
-RefMan2 is a reference manager for tracking articles, books, academic papers, and websites. It's mostly written in python and is designed to be as customizable as possible. RefMan2 automatically creates citekeys and stores the metadata of your works in an SQLite database which is then used for formating a bibtex bibliography. Refman2 accepts dois, isbns and urls and it attempts to download a PDF for you as well. 
+RefMan2 is a reference manager for tracking articles, books, academic papers, and websites. It's mostly written in python and is designed to be as customizable as possible. RefMan2 automatically creates citekeys and stores the metadata of your works in an SQLite database which is then used for formating a bibtex bibliography. Refman2 accepts dois, isbns and urls and it attempts to download a PDF for you as well.  
 
 I had originally called it RefMan but unknown to me at the time, there is already a python-based reference manager called [[https://github.com/adriancaruana/refman][refman]] by Adrien Caruana. However I believe that RefMan2 is different enough to warrant posting the code.
 
 * Default Behavior and Philosophy
 Refman is designed to be used with BibTeX which distinguishes between papers (@article), books (@book), and websites (@online). So by default your references are stored in the following directory structure:
-
 #+begin_example
 References 
 ├── Papers  
@@ -23,10 +22,9 @@ References
 ├── citekeys.db  
 └── .refman2 
 #+end_example
-
 Where the first 2 folders store PDFs and these directories are created automatically if they do not exist the first time you run refman2. =References/citekeys.db= stores all the citation metadata in an SQLite database, and =References/.refman= stores the refman code. Although all of this can be customized (and documentation for that is coming soon). 
 
-I wrote it like this for 2 reasons: 1. refman is a work in progress so this way you can easily clone a newer version of .refman without it messing with your saved references. And 2. you can rename or make multiple "References" folders and databases, or move the folder and refman2 will work fine (since the code is in a subdirectory). 
+I wrote it like this for 2 reasons: 1. refman is a work in progress so this way you can easily download a newer version of .refman without it messing with your saved references. And 2. you can rename or make multiple "References" folders and databases, or move the folder and refman2 will work fine (since the code is in a subdirectory). 
 
 * Quick Start
 Create a folder to store your references, for example if you created a "References" folder then:
@@ -36,7 +34,6 @@ Create a folder to store your references, for example if you created a "Referenc
   cd .refman2
   docker build -t refman . 
 #+end_src
-
 Where the last step will build the refman docker image. For reproducible results, I highly recommended running refman2 in a docker container. The script "refman.sh" is a wrapper for running the container (which by default expects the name of the image to be refman). 
 
 ** Adding a Paper with a DOI
@@ -174,4 +171,4 @@ From the command line, use the =--database= flag to specify which database you w
     --database "../citekeys_test.db" 
 #+end_src
 
-
+You may think it's a good idea to create different databases for each bibliography you need to format. However I plan to create "reference groups" which will be tags associated to each citekey. So you can distinguish a set of citkeys by assigning them to a "thesis" reference group for example.  

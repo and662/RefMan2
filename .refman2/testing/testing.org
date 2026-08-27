@@ -2,6 +2,8 @@
 :ID:       b42ff595-5827-4a58-a48b-007ffd12045b
 :END:
 
+
+
 To obtain the latest version of the RefMan project, while keeping the saved citekey data use the following: 
 #+begin_src bash
   .refman/reinstall.sh 
@@ -31,10 +33,9 @@ To add a doi to the database:
 
 Equivalently, this can be done from the command line:
 #+begin_src bash
-  ./refman2.sh add-doi 10.1103/PhysRev.106.162  # BCS paper 
-  ./refman2.sh add-doi 10.1038/nature26160      # TBG superconductivity paper 
+  .refman2/refman2.sh add-doi 10.1103/PhysRev.106.162  # BCS paper 
+  .refman2/refman2.sh add-doi 10.1038/nature26160      # TBG superconductivity paper 
 #+end_src
-
 
 Or if you want more fine grained control: 
 #+begin_src python
@@ -49,8 +50,8 @@ Or if you want more fine grained control:
 
 This can all be done from the command line: 
 #+begin_src bash
-  ./refman2.sh add-doi 10.1103/PhysRev.106.162  # BCS paper 
-  ./refman2.sh add-doi 10.1038/nature26160      # TBG superconductivity paper 
+  .refman2/refman2.sh add-doi 10.1103/PhysRev.106.162  # BCS paper 
+  .refman2/refman2.sh add-doi 10.1038/nature26160      # TBG superconductivity paper 
 #+end_src
 
 Use ~./refman.sh add-doi --help~ for a help menu 
@@ -58,23 +59,23 @@ Use ~./refman.sh add-doi --help~ for a help menu
 ** Testing ArXiv:
 
 #+begin_src bash
-  ./refman.sh add-doi math/0211159 # Perelman 1  
-  ./refman.sh add-doi math/0303109 # Perelman 2  
-  ./refman.sh add-doi math/0307245 # Perelman 3  
+  .refman2/refman2.sh add-doi math/0211159 # Perelman 1  
+  .refman2/refman2.sh add-doi math/0303109 # Perelman 2  
+  .refman2/refman2.sh add-doi math/0307245 # Perelman 3  
 #+end_src
 
 
 * Testing Books:
 
 #+begin_src bash
-  ./refman.sh add-isbn 0201503972 # Peskin & Schroeder 
+  .refman2/refman2.sh add-isbn 0201503972 # Peskin & Schroeder 
 #+end_src
 
 
 * Testing Websites:
 
 #+begin_src bash
-  ./refman.sh --add-url 
+  .refman2/refman2.sh add-url 
 #+end_src
 
 
@@ -82,12 +83,12 @@ Use ~./refman.sh add-doi --help~ for a help menu
 
 Delete a citekey with:
 #+begin_src bash
-  ./refman.sh --delete <citekey> 
+  .refman2/refman2.sh delete <citekey> 
 #+end_src
 
 Rename a citekey with:
 #+begin_src bash
-  ./refman.sh --rename <old citekey> <new citekey> 
+  .refman2/refman2.sh rename <old citekey> <new citekey> 
 #+end_src
 
 

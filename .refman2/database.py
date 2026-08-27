@@ -7,7 +7,7 @@ class database:
 
   def __init__( self, db_name, config = None ):
     if db_name == None:
-      db_name = '../citekeys.db'
+      db_name = 'citekeys.db'
     self.db_name = db_name 
     if os.path.isfile( db_name ):
       self.db = sqlite3.connect( db_name )
@@ -169,5 +169,4 @@ if __name__ == '__main__':
   
   config = CFG.config 
   citekeysDB = database( CFG.config.db_file )
-
 

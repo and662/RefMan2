@@ -12,18 +12,17 @@ class Config:
     self.use_datacite = True
     self.use_arxiv    = True
     
-    # self.db_file = 'citekeys.db'     
-    self.papers_dir    = '../Papers'
-    self.books_dir     = '../Books'
-    self.websites_dir  = '../Websites'
-    self.responses_dir = '../.responses'
+    # self.db_file = 'citekeys.db'
+    self.papers_dir    = 'Papers'
+    self.books_dir     = 'Books'
+    self.websites_dir  = 'Websites'
+    self.responses_dir = '.responses'
     
     # self.pdf_viewer = 'zathura' 
-
     self.autodownload_papers = True
     self.autodownload_books  = True
-    self.autodownload_scihub = False # in case you like copyright law 
-    self.autodownload_libgen = False # in case you like copyright law
+    self.autodownload_scihub = False  
+    self.autodownload_libgen = False 
     
     # the following are used by the various APIs
     self.api_rate_lim   = 0.5 
@@ -42,7 +41,7 @@ class Config:
           print( f'Created the folder: { required_folder }' )
     
 
-# feel free to modify the template 
+# Modify this template for custom citekeys 
 def citekey_template( fist_author_lastname, second_author_lastname, year, title ):
 
   ''' for a really verbose citekey:

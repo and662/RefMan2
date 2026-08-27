@@ -6,7 +6,6 @@
 
 
 ;; TD: increment the last accessed date when opening 
-
 (defun refman-citekeys-menu ()
   "Open an ivy minibuffer for selecting a citekey"
 	(interactive)
@@ -15,7 +14,6 @@
 				 (selected-citekey (ivy-read "Select a Citekey: " citekeys-list)))
 		(sqlite-close ck-database)
 		(selected-citekey)))
-
 
 (defun refman-open-citekeys ()
 	"Open the citekey file" 
@@ -31,7 +29,6 @@
 		(sqlite-close ck-database)
 		(shell-command (format "zathura %s" ref-file-path))))
 
-
 (defun refman-create-link ()
 	"Create a link to the file" 
 	(interactive)
@@ -45,7 +42,6 @@
 								 ((string= (car (car content-type)) "website") (format "%s/%s.pdf" refman-websites-dir selected-citekey)))))
 		(sqlite-close ck-database)
 		(insert (format "[[file:%s][%s]] " ref-file-path selected-citekey))))
-
 
 (defun refman-command (refman)
   "Send a command to refman" 

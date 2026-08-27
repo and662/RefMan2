@@ -6,4 +6,3 @@ docker run --rm \
   -w "/tmp/References/.refman2" \
   -it refman python3 "$@"
 
-

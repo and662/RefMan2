@@ -1,4 +1,4 @@
-i:PROPERTIES:
+:PROPERTIES:
 :ID:       574db4b7-cab4-4cc5-9993-b27b87c1727e
 :END:
 
@@ -190,5 +190,5 @@ Note: You may think it's a good idea to create different databases for each bibl
 See [[../.refman2/refman.org]] for the documentation. 
 
 * Future Work and Changes 
-See [[id:c02abd88-305b-45eb-9bd3-68442bfa813a][./future_work]] for a list of changes I plan to make. 
+See [[id:c02abd88-305b-45eb-9bd3-68442bfa813a][./future_work.org]] for a list of changes I plan to make. 
 

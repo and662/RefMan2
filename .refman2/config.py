@@ -52,4 +52,14 @@ def citekey_template( fist_author_lastname, second_author_lastname, year, title 
   return f'{ fist_author_lastname }{year}' 
 
 
-
+def format_orgfile_links( citekey, main_id, main_id_type ):
+  match main_id_type:
+   case 'crossref-doi':
+     return f'[[https://doi.org/{ main_id }][{ citekey }]]'  
+   case 'arxiv-id':
+     return f'[[https://arxiv.org/abs/{ main_id }][{ citekey }]]'   
+   case 'openlib-isbn':
+     return f'[[https://www.worldcat.org/isbn/{ main_id }][{ citekey }]]' 
+   case 'url':
+     return f'[[{ main_id }][{ citekey }]]'
+  return None 

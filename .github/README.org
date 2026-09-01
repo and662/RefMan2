@@ -1,4 +1,4 @@
-:PROPERTIES:
+i:PROPERTIES:
 :ID:       574db4b7-cab4-4cc5-9993-b27b87c1727e
 :END:
 
@@ -8,9 +8,9 @@
 #+HTML: <img src="./refman_logo.png" width="400">
 #+HTML: </p>
 
-RefMan2 is a reference manager for tracking articles, books, academic papers, and websites. It's mostly written in python and is designed to be as customizable as possible. RefMan2 automatically creates citekeys and stores the metadata of your works in an SQLite database which is then used for formating a bibtex bibliography. Refman2 accepts dois, isbns and urls and it attempts to download a PDF for you as well.  
+RefMan2 is a reference manager for tracking articles, books, academic papers, and websites. It's mostly written in python and it's designed to be as customizable as possible. RefMan2 automatically creates citekeys and stores the metadata of your works in an SQLite database which is then used for formating a bibtex bibliography. Refman2 accepts dois, isbns and urls and it attempts to download a PDF for you as well.  
 
-I had originally called it RefMan but unknown to me at the time, there is already a python-based reference manager called [[https://github.com/adriancaruana/refman][RefMan]] by Adrien Caruana. However I believe that RefMan2 is different enough to warrant posting the code.
+I had originally called it RefMan but unknown to me at the time, there is already a python-based reference manager called [[https://github.com/adriancaruana/refman][RefMan]] by Adrien Caruana. However I believe that RefMan2 is different enough to warrant posting the code. And huge thanks to [[https://www.instagram.com/caneberryworks/][@caneberryworks]] for designing the refman logo. 
 
 * Defaults and Philosophy
 Refman is designed to be used with BibTeX which distinguishes between papers (@article), books (@book), and websites (@online). So by default your references are stored in the following directory structure:
@@ -22,15 +22,14 @@ References
 ├── citekeys.db  
 └── .refman2 
 #+end_example
-Where the first 2 folders store PDFs and these directories are created automatically if they do not exist the first time you run refman2. =References/citekeys.db= stores all the citation metadata in an SQLite database, and =References/.refman= stores the refman code. Although all of this can be customized (and documentation for that is coming soon). This design allows you to make multiple "References" folders, and databases, and it allows you to keep your PDFs seperate from the refman code.
+Where the first 2 folders store PDFs and these directories are created automatically if they do not exist the first time you run refman2. =References/citekeys.db= stores all the citation metadata in an SQLite database, and =References/.refman= stores the refman code. Although all of this can be customized. Note that this design allows you to make multiple "References" folders, and databases, and it allows you to keep your PDFs seperate from the refman code.
 
 * Quick Start
 Create a folder to store your references, for example if you created a "References" folder then:
 #+begin_src bash
   cd References 
   git clone https://github.com/and662/RefMan.git .
-  cd .refman2
-  docker build -t refman . 
+  docker build -t refman .refman2
 #+end_src
 Where the last step will build the refman docker image. For reproducible results, I highly recommended running refman2 in a docker container. The script "refman.sh" is a wrapper for running the container (which by default expects the name of the image to be refman). 
 
@@ -133,14 +132,29 @@ Then update the following lines in refman2.el:
 #+end_src
 So that it points to the correct folders. 
 
-Now the following emacs commands will be available:
+Note that all of the following commands assume that you already added references to the citekeys database.
+
+To open a PDF in one of the above directories from a citekey use the following. 
 #+begin_src emacs-lisp
-  M-x refman-command 
-  M-x refman-create-link
-  M-x refman-open-citekeys
-  M-x refman-citekeys-menu 
+  M-x refman-open
 #+end_src
-Note: I wrote this so that emacs looks for the bash alias called "refman". 
+
+To create a link from a citekey in orgmode use the following:
+#+begin_src emacs-lisp
+  M-x refman-pdf-link
+  M-x refman-url-link
+#+end_src
+where ~refman-pdf-link~ will link to the downloaded file and ~refman-url-link~ will have a url as it's target. I find ~refman-url-link~ is better since in cases where I'm sharing my orgfiles, so that I can ensure that the link I create will work for anybody. If I create a link as I url I can still use refman to open the corresponding pdf file with:
+#+begin_src emacs-lisp
+  M-x refman-open-at-point  
+#+end_src  
+
+To insert a citation use: 
+#+begin_src emacs-lisp
+  M-x refman-bib-cite
+  M-x refman-bibtex
+#+end_src
+The first command will make a link of the form =\cite{citekey}= and the second one will produce the full bibtex citation that goes in your .bib file. 
 
 * Without Docker 
 Unfortunately not everyone likes to use Docker, and admitedly the docker image is pretty large (roughly 1 GB). So note that RefMan2 requires wget, python3 and sqlite3 to be installed on your system. You will alse need a virtual environment to run the python code, create one as follows:
@@ -173,6 +187,8 @@ From the command line, use the =--database= flag to specify which database you w
 Note: You may think it's a good idea to create different databases for each bibliography you need to format. However I plan to create "reference groups" which will be tags associated to each citekey. So you can distinguish a set of citkeys by assigning them to a "thesis" reference group for example.
 
 ** Customizing the Code 
-see [[../.refman2/refman.org]] for the documentation. 
+See [[../.refman2/refman.org]] for the documentation. 
 
+* Future Work and Changes 
+See [[id:c02abd88-305b-45eb-9bd3-68442bfa813a][./future_work]] for a list of changes I plan to make. 
 

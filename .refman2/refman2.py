@@ -14,7 +14,7 @@ class RefMan2:
   def __init__( self, database = None, config_file = None, verbose_mode = False ):
     self.config = CFG.Config( config_file = config_file, verbose_mode = verbose_mode )
     self.citekeysDB = DB.database( database, config = self.config )
-
+  
   def bibtex( self, citekey ):
     CK.bibtex( self.citekeysDB, citekey )
 
@@ -40,6 +40,20 @@ class RefMan2:
 
   def list( self ):
     print( 'TD: set up listing of citekeys' )
+
+  def org_link( self, citekey ):
+    ck_results = self.citekeysDB.db_row_select( 'Main Identifier', cols_in = { "Citekey" : citekey } )
+    if len( ck_results ) == 0:
+      print( f'Error: No results for citekey { citekey } in the database: { self.citekeysDB.db_name }' )
+      exit()
+
+    for ck, ref_type, ref_id, ref_id_type in ck_results:
+      org_link_str = CFG.format_orgfile_links( ck, ref_id, ref_id_type )
+      if org_link_str == None:
+        print( f'Error: Could not format a link for { ck } with id type { ref_id_type }' )
+      else:
+        self.citekeysDB.update_accessed_date( ck )
+        yield org_link_str 
 
 
 citekey_parser = argparse.ArgumentParser( prog = 'REFMAN2', 
@@ -102,6 +116,13 @@ group.add_argument( '--first-accessed', '-fa', nargs = '?', type = int, const = 
 ls_parser.add_argument( '--verbose',  '-v',   action = 'store_true',                help = 'Enable verbose mode' )
 ls_parser.add_argument( '--config',   '-cfg', type = str,               help = 'Path of the configuration folder' )
 ls_parser.add_argument( '--database', '-db',  type = str,               help = 'Path of the SQLite database' )
+
+org_parser = argparse.ArgumentParser( prog = 'REFMAN2 add-orgfile-link', 
+  description = 'A menu for creating orgfile links' )
+org_parser.add_argument( 'citekey',            type = str, nargs = 1, help = 'Citekey' )
+org_parser.add_argument( '--verbose',  '-v',   action = 'store_true',                help = 'Enable verbose mode' )
+org_parser.add_argument( '--config',   '-cfg', type = str,               help = 'Path of the configuration folder' )
+org_parser.add_argument( '--database', '-db',  type = str,               help = 'Path of the SQLite database' )
 
 
 if __name__ == '__main__':
@@ -201,7 +222,14 @@ if __name__ == '__main__':
           print( 'TD: print all citekeys in the order that they were last accessed' )
         else:
           print( f'TD: print { ls_args.last_accessed } citekeys in the order that they were last accessed' )
-  
+
+    case 'org-link': 
+      org_args = org_parser.parse_args(sys.argv[2:])
+      refman2 = RefMan2( database = org_args.database, config_file = org_args.config, verbose_mode = org_args.verbose )
+      for citekey in org_args.citekey:
+        for link in refman2.org_link( citekey ):
+          print( link )
+
     case _:
       citekey_args = citekey_parser.parse_args( sys.argv[1:] )
       refman2 = RefMan2( database = citekey_args.database, config_file = citekey_args.config, verbose_mode = citekey_args.verbose )

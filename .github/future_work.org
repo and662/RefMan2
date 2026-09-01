@@ -1,0 +1,18 @@
+:PROPERTIES:
+:ID:       c02abd88-305b-45eb-9bd3-68442bfa813a
+:END:
+
+Missing from the codebase in its current state:
+ - Format SQL querries properly... 
+ - Still no support for related identifiers, idea: get rid of related identifiers? 
+ - ~.refman2/refman2.sh list~ still does nothing 
+   
+To add to the code in the future:
+ - Create reference groups, which are tags that can be assigned to certain references. 
+ - Better scihub and libgen integration... 
+ - Store a table containing all authors in the database 
+ - Store a table containing all references in the bibliography of a paper 
+ - Add the option not to create a .responses folder 
+
+Known Issues:
+ - "Number" is the primary key for the "Related Identifiers" table in the database 

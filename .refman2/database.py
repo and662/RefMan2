@@ -76,6 +76,7 @@ class database:
           if config.verbose_mode == True:
             print( f'Renamed "{ file_path }" to "{ new_file_path }"' )
   
+  
   def delete_citekey( self, citekey, config ):
     # delete the resources
     for folder in [ config.papers_dir, config.books_dir, config.websites_dir, config.responses_dir ]:
@@ -164,9 +165,4 @@ class database:
 
     return ck_match + list( related_citekeys )
 
-
-if __name__ == '__main__':
-  
-  config = CFG.config 
-  citekeysDB = database( CFG.config.db_file )
 

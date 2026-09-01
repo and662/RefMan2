@@ -1,0 +1,45 @@
+:PROPERTIES:
+
+* The Docker Container 
+Make sure to run all of the following from the docker container. Build the docker image from the [[./Dockerfile]] with ~docker build -t refman .refman2~ and open a container as follows:
+#+begin_src bash
+  docker run --rm \
+    --user="$(id -u):$(id -g)" \
+    -v ".:/tmp/References" \
+    -w "/tmp/References" \
+    -it refman bash
+#+end_src
+
+* Overview  
+The program is designed to be run from the file [[./refman2.py]] and the following commands are possible:
+#+begin_src bash
+  python3 .refman2/refman2.py          --help  
+  python3 .refman2/refman2.py bibtex   --help  
+  python3 .refman2/refman2.py add-doi  --help  
+  python3 .refman2/refman2.py add-isbn --help  
+  python3 .refman2/refman2.py add-url  --help  
+  python3 .refman2/refman2.py remove   --help  
+  python3 .refman2/refman2.py rename   --help  
+  python3 .refman2/refman2.py list     --help  
+  python3 .refman2/refman2.py org-link --help  
+#+end_src
+
+* The org-link subprogram 
+
+#+begin_src bash
+  
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun org-link (citekey) 
+    "Make a link"
+    (interactive)
+    ;; (message (shell-command-to-string (format "./refman2_nixos.sh org-link %s" citekey))))
+    (message (format "./refman2_nixos.sh org-link %s" citekey)))
+
+  (org-link "Hatcher2002")
+#+end_src
+
+#+RESULTS:
+: ./refman2_nixos.sh org-link Hatcher2002
+

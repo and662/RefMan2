@@ -3,7 +3,6 @@
 :END:
 
 
-
 To obtain the latest version of the RefMan project, while keeping the saved citekey data use the following: 
 #+begin_src bash
   .refman/reinstall.sh 
